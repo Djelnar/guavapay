@@ -1,4 +1,5 @@
 import accounts from './accounts'
+import cards from './cards'
 import transactions from './transactions'
 
 const sleep = () =>
@@ -18,12 +19,14 @@ export type WithPageResponse<T = {}> = {
 }
 
 export const serializeIban = (iban: string) => iban.replace(/\s+/g, '')
+export const serializeCard = (maskedCardNumber: string) => maskedCardNumber.replace(/\s+/g, '')
 
 export const getAccounts = async ({
   page,
 }: WithPageRequest<{
   cardId?: string
   transactionId?: string
+  accountId?: string
 }>): Promise<WithPageResponse<typeof accounts[0]>> => {
   const first = page * 10
   const last = first + 10
@@ -69,4 +72,30 @@ export const getTransaction = async ({ id }: { id: string }) => {
   const transaction = transactions.find((tr) => tr.transactionID === id)
 
   return transaction
+}
+
+export const getCards = async ({
+  page,
+}: WithPageRequest<{
+  transactionId?: string
+  accountId?: string
+  cardId?: string
+}>): Promise<WithPageResponse<typeof cards[number]>> => {
+  const first = page * 10
+  const last = first + 10
+
+  await sleep()
+  return {
+    page,
+    items: cards.slice(first, last),
+  }
+}
+
+export const getCard = async ({ maskedCardNumber }: { maskedCardNumber: string }) => {
+  await sleep()
+  const card = Object.values(cards).find(
+    (card) => serializeCard(card.maskedCardNumber) === serializeCard(maskedCardNumber),
+  )
+
+  return card
 }

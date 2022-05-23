@@ -1,3 +1,4 @@
+import { where } from 'lodash/fp'
 import accounts from './accounts'
 import cards from './cards'
 import transactions from './transactions'
@@ -24,9 +25,9 @@ export const serializeCard = (maskedCardNumber: string) => maskedCardNumber.repl
 export const getAccounts = async ({
   page,
 }: WithPageRequest<{
-  cardId?: string
-  transactionId?: string
-  accountId?: string
+  cardMaskedNumber?: string
+  transactionNumber?: string
+  accountIban?: string
 }>): Promise<WithPageResponse<typeof accounts[0]>> => {
   const first = page * 10
   const last = first + 10
@@ -54,8 +55,8 @@ export const serializeDate = (date: string, transactionId: string) => {
 export const getTransactions = async ({
   page,
 }: WithPageRequest<{
-  cardId?: string
-  accountId?: string
+  cardMaskedNumber?: string
+  accountIban?: string
 }>): Promise<WithPageResponse<typeof transactions[number]>> => {
   const first = page * 10
   const last = first + 10
@@ -76,18 +77,27 @@ export const getTransaction = async ({ id }: { id: string }) => {
 
 export const getCards = async ({
   page,
+  accountIban,
+  cardMaskedNumber,
+  transactionNumber,
 }: WithPageRequest<{
-  transactionId?: string
-  accountId?: string
-  cardId?: string
+  transactionNumber?: string
+  accountIban?: string
+  cardMaskedNumber?: string
 }>): Promise<WithPageResponse<typeof cards[number]>> => {
   const first = page * 10
   const last = first + 10
 
+  let items = cards.slice(first, last)
+
+  if (accountIban) {
+    items = items.filter((item) => item.account === accountIban)
+  }
+
   await sleep()
   return {
     page,
-    items: cards.slice(first, last),
+    items,
   }
 }
 

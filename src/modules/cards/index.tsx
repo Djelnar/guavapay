@@ -40,7 +40,7 @@ const Cards = () => {
   const [hasMore, setHasMore] = useState(false)
 
   const [items, setItems] = useState<typeof cards>([])
-  const { transactionId, accountId } = useParams() as RouteParams
+  const { transactionNumber, accountIban } = useParams() as RouteParams
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
@@ -48,8 +48,8 @@ const Cards = () => {
     setLoading(true)
     getCards({
       page,
-      transactionId,
-      accountId,
+      transactionNumber,
+      accountIban,
     })
       .then((res) => {
         if (res.page === 0 && res.items.length === 1) {

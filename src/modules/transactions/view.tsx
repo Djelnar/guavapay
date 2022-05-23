@@ -21,17 +21,17 @@ export const formatCurrency = (value: number, currency: string) =>
   }).format(value / 100)
 
 const TransactionView = () => {
-  const { transactionId } = useParams() as RouteParams
+  const { transactionNumber } = useParams() as RouteParams
 
   const [transaction, setTransaction] = useState<typeof transactions[0] | null>(null)
 
   useEffect(() => {
-    getTransaction({ id: last(transactionId!.split('-'))! }).then((tr) => {
+    getTransaction({ id: last(transactionNumber!.split('-'))! }).then((tr) => {
       if (tr) {
         setTransaction(tr)
       }
     })
-  }, [transactionId])
+  }, [transactionNumber])
 
   return (
     <div>

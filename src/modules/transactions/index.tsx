@@ -41,15 +41,15 @@ const Transactions = () => {
   const [hasMore, setHasMore] = useState(false)
 
   const [items, setItems] = useState<typeof transactions>([])
-  const { accountId, cardId } = useParams() as RouteParams
+  const { accountIban, cardMaskedNumber } = useParams() as RouteParams
   const { pathname } = useLocation()
 
   useEffect(() => {
     setLoading(true)
     getTransactions({
       page,
-      cardId,
-      accountId,
+      accountIban,
+      cardMaskedNumber,
     })
       .then((res) => {
         setItems((s) => s.concat(res.items))

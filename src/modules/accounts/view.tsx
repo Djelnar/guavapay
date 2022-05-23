@@ -8,17 +8,17 @@ import { CurrencyEmoji, formatCurrency } from '.'
 import { Balance, Emoji, Iban } from './style'
 
 const AccountView = () => {
-  const { accountId } = useParams() as RouteParams
+  const { accountIban } = useParams() as RouteParams
 
   const [account, setAccount] = useState<typeof accounts[0] | null>(null)
 
   useEffect(() => {
-    getAccount({ iban: accountId! }).then((acc) => {
+    getAccount({ iban: accountIban! }).then((acc) => {
       if (acc) {
         setAccount(acc)
       }
     })
-  }, [accountId])
+  }, [accountIban])
 
   return (
     <div>

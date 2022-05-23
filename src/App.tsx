@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { reject } from 'lodash/fp'
 import React, { Fragment } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -9,15 +10,7 @@ const mapRoutesRec = (routes: typeof ROUTE_CONSTANTS, base = '') => {
   return routes.map(({ listKey, pathParam, ListComponent, ViewComponent }) => (
     <Fragment key={listKey}>
       <Route path={`${base}/${listKey}`} element={<ListComponent />} />
-      <Route
-        path={`${base}/${listKey}/:${pathParam}`}
-        element={
-          <>
-            <ListComponent />
-            <ViewComponent />
-          </>
-        }
-      />
+      <Route path={`${base}/${listKey}/:${pathParam}`} element={<ViewComponent />} />
       {mapRoutesRec(
         reject((item) => item.listKey === listKey, routes),
         `${base}/${listKey}/:${pathParam}`,
@@ -26,14 +19,26 @@ const mapRoutesRec = (routes: typeof ROUTE_CONSTANTS, base = '') => {
   ))
 }
 
-function App() {
-  const res = mapRoutesRec(ROUTE_CONSTANTS)
+const Root = styled.div`
+  background-color: papayawhip;
+  min-height: 100vh;
+`
+const Wrapper = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 24px;
+`
 
+function App() {
   return (
-    <Routes>
-      {res}
-      {/* <Route path="*" element={<Navigate to={ROUTE_CONSTANTS[0].listKey} />} /> */}
-    </Routes>
+    <Root>
+      <Wrapper>
+        <Routes>
+          {mapRoutesRec(ROUTE_CONSTANTS)}
+          <Route path="*" element={<Navigate to={ROUTE_CONSTANTS[0].listKey} />} />
+        </Routes>
+      </Wrapper>
+    </Root>
   )
 }
 

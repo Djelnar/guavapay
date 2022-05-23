@@ -1,33 +1,23 @@
-import Faker from '@faker-js/faker'
 import { Currencies } from './currencies'
 
 const accounts = {
   0: {
     id: 0,
-    iban: Faker.finance.iban(true, 'GB'),
+    iban: 'GB31 ZTIC 1782 7303 2400 36',
     currency: Currencies.EUR,
-    balance: Faker.datatype.number({
-      min: 10000,
-      max: 1000000,
-    }),
+    balance: 82127,
   },
   1: {
     id: 1,
-    iban: Faker.finance.iban(true, 'GB'),
+    iban: 'GB55 VENM 0010 5962 3005 70',
     currency: Currencies.USD,
-    balance: Faker.datatype.number({
-      min: 10000,
-      max: 1000000,
-    }),
+    balance: 472757,
   },
   2: {
     id: 2,
-    iban: Faker.finance.iban(true, 'GB'),
+    iban: 'GB85 AOJO 4440 0700 5283 62',
     currency: Currencies.AZN,
-    balance: Faker.datatype.number({
-      min: 10000,
-      max: 1000000,
-    }),
+    balance: 163136,
   },
 }
 

@@ -2,7 +2,7 @@ import accounts from './accounts'
 import Faker from '@faker-js/faker'
 import { Currencies } from './currencies'
 
-const cards = [...Array(9).keys()].map((key) => ({
+const cards = [...Array(20).keys()].map((key) => ({
   cardID: key,
   account: Faker.helpers.arrayElement(Object.keys(accounts)),
   maskedCardNumber: `${Faker.finance.pin(4)} ${Faker.finance.pin(2)}** **** ${Faker.finance.pin(4)}`,

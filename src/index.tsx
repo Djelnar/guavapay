@@ -1,6 +1,3 @@
-import accounts from 'api/accounts'
-import cards from 'api/cards'
-import transactions from 'api/transactions'
 import App from 'App'
 import React from 'react'
 import ReactDOMClient from 'react-dom/client'
@@ -18,5 +15,3 @@ if (rootElement) {
     </React.StrictMode>,
   )
 }
-
-console.log('🚀 ~ file: index.tsx ~ line 21 ~ tr', cards)

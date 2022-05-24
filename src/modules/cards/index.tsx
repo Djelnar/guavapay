@@ -3,7 +3,8 @@ import { Card } from 'api/cards'
 import Breadcrumbs from 'components/breadcrumbs'
 import CardComponent from 'components/card'
 import { Heading, LoadMore } from 'components/ui'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCurrency } from 'lib/use-currency'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
@@ -28,7 +29,9 @@ const Cards = () => {
 
   const [items, setItems] = useState<Card[]>([])
   const { transactionNumber, accountIban } = useParams() as RouteParams
+
   const navigate = useNavigate()
+  const currency = useCurrency()
 
   useEffect(() => {
     setLoading(true)
@@ -38,9 +41,6 @@ const Cards = () => {
       accountIban,
     })
       .then((res) => {
-        if (res.page === 0 && res.items.length === 1) {
-          navigate(res.items[0].maskedCardNumber, { replace: true })
-        }
         setItems((s) => s.concat(res.items))
         if (res.items.length < 10) {
           setHasMore(false)
@@ -59,6 +59,11 @@ const Cards = () => {
     }
   }, [hasMore, page, loading])
 
+  const itemsPrepared = useMemo(
+    () => items.filter((item) => !currency || item.currency === currency),
+    [items, currency],
+  )
+
   return (
     <Root>
       <Breadcrumbs />
@@ -72,7 +77,7 @@ const Cards = () => {
         )}
       </Heading>
       <List>
-        {items.map((item) => (
+        {itemsPrepared.map((item) => (
           <CardComponent card={item} key={item.cardID} to={item.maskedCardNumber} />
         ))}
       </List>

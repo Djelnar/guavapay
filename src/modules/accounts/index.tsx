@@ -4,7 +4,8 @@ import Breadcrumbs from 'components/breadcrumbs'
 import { Heading, LoadMore, Paper } from 'components/ui'
 import { CurrencyEmoji, formatCurrency } from 'lib/format-currency'
 import { formatIban } from 'lib/format-iban'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCurrency } from 'lib/use-currency'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
@@ -30,7 +31,9 @@ const Accounts = () => {
 
   const [items, setItems] = useState<Account[]>([])
   const { transactionNumber, maskedCardNumber } = useParams() as RouteParams
+
   const navigate = useNavigate()
+  const currency = useCurrency()
 
   useEffect(() => {
     setLoading(true)
@@ -40,9 +43,6 @@ const Accounts = () => {
       maskedCardNumber,
     })
       .then((res) => {
-        if (res.page === 0 && res.items.length === 1) {
-          navigate(res.items[0].iban, { replace: true })
-        }
         setItems((s) => s.concat(res.items))
         if (res.items.length < 10) {
           setHasMore(false)
@@ -61,12 +61,17 @@ const Accounts = () => {
     }
   }, [hasMore, page, loading])
 
+  const itemsPrepared = useMemo(
+    () => items.filter((item) => !currency || item.currency === currency),
+    [items, currency],
+  )
+
   return (
     <Root>
       <Breadcrumbs />
       <Heading>Accounts</Heading>
       <List>
-        {items.map((item) => (
+        {itemsPrepared.map((item) => (
           <Paper to={item.iban} key={item.id}>
             <Emoji>{CurrencyEmoji[item.currency]}</Emoji>
             <Iban>{formatIban(item.iban)}</Iban>

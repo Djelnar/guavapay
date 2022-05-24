@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import QueryLink from './query-link'
 
-export const Paper = styled(Link)`
+export const Paper = styled(QueryLink)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -4,6 +4,7 @@ import React, { Fragment } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ROUTE_CONSTANTS } from 'route-constants'
 import Home from 'modules/home'
+import CurrencySelector from 'modules/currency-selector'
 
 const mapRoutesRec = (routes: typeof ROUTE_CONSTANTS, base = '') => {
   if (routes.length === 0) return null
@@ -33,6 +34,7 @@ const Wrapper = styled.div`
 function App() {
   return (
     <Root>
+      <CurrencySelector />
       <Wrapper>
         <Routes>
           {mapRoutesRec(ROUTE_CONSTANTS)}

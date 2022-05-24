@@ -5,6 +5,7 @@ import { Heading, LoadMore, Paper, SubHeading } from 'components/ui'
 import { formatCardNumber } from 'lib/format-card-number'
 import { formatCurrency } from 'lib/format-currency'
 import { formatIban } from 'lib/format-iban'
+import { useCurrency } from 'lib/use-currency'
 import { groupBy } from 'lodash/fp'
 import { get } from 'mcc'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -49,6 +50,7 @@ const Transactions = () => {
 
   const [items, setItems] = useState<Transaction[]>([])
   const { accountIban, maskedCardNumber } = useParams() as RouteParams
+  const currency = useCurrency()
 
   useEffect(() => {
     setLoading(true)

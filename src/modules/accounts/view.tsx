@@ -27,7 +27,6 @@ const AccountView = () => {
   const { accountIban } = useParams() as RouteParams
 
   const segments = usePathSegments()
-  console.log('🚀 ~ file: view.tsx ~ line 26 ~ AccountView ~ segments', segments)
 
   const [account, setAccount] = useState<Account | null>(null)
 

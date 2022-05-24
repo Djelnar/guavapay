@@ -27,3 +27,4 @@ export const ROUTE_CONSTANTS = [
 ]
 
 export type RouteParams = Partial<Record<'transactionNumber' | 'accountIban' | 'maskedCardNumber', string>>
+export type SearchParams = { currency?: string }

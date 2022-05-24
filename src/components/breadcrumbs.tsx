@@ -1,8 +1,9 @@
 import { upperFirst } from 'lodash/fp'
 import React, { Fragment } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import styled from 'styled-components'
+import QueryLink from './query-link'
 
 const Root = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ const Breadcrumbs = () => {
 
   return (
     <Root>
-      <Item to={'/'} as={Link}>
+      <Item to={'/'} as={QueryLink}>
         Home
       </Item>
       {segments.map((seg, idx) => {
@@ -34,7 +35,7 @@ const Breadcrumbs = () => {
         return (
           <Fragment key={seg}>
             <Item>{'>'}</Item>
-            <Item to={`/${segments.slice(0, idx + 1).join('/')}`} as={last ? 'span' : Link}>
+            <Item to={`/${segments.slice(0, idx + 1).join('/')}`} as={last ? 'span' : QueryLink}>
               {upperFirst(seg)}
             </Item>
           </Fragment>

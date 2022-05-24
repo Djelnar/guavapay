@@ -13,7 +13,9 @@ const Home = () => {
   return (
     <Root>
       {ROUTE_CONSTANTS.map((item) => (
-        <Paper to={item.listKey}>{upperFirst(item.listKey)}</Paper>
+        <Paper key={item.listKey} to={item.listKey}>
+          {upperFirst(item.listKey)}
+        </Paper>
       ))}
     </Root>
   )

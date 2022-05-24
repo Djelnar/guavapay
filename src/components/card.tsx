@@ -1,5 +1,6 @@
 import { Card as TCard } from 'api/cards'
 import { formatCardNumber } from 'lib/format-card-number'
+import { CurrencyEmoji } from 'lib/format-currency'
 import { formatExpireDate } from 'lib/format-expire-date'
 import React from 'react'
 import styled from 'styled-components'
@@ -29,12 +30,19 @@ export const ExpireDate = styled.p`
   font-size: 28px;
   color: white;
 `
+export const Currency = styled.p`
+  font-size: 24px;
+  color: white;
+`
 
 const Card = ({ card, to = '' }: TProps) => {
   return (
     <Root to={to} cardColor={card.color} disabled={!card.status} key={card.cardID}>
       <MaskedCardNumber>{formatCardNumber(card.maskedCardNumber)}</MaskedCardNumber>
       <ExpireDate>{formatExpireDate(card.expireDate)}</ExpireDate>
+      <Currency>
+        {CurrencyEmoji[card.currency as keyof typeof CurrencyEmoji]} {card.currency}
+      </Currency>
     </Root>
   )
 }

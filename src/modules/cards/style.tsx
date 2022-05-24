@@ -2,11 +2,12 @@ import { Paper } from 'components/ui'
 
 import styled from 'styled-components'
 
-export const Card = styled(Paper)<{ cardColor: string }>`
+export const Card = styled(Paper)<{ cardColor: string; small?: boolean }>`
   border-radius: 14px;
-  width: 100%;
+  width: ${(p) => (p.small ? '50%' : '100%')};
   aspect-ratio: 1.586;
   background-color: ${(p) => p.cardColor};
+  margin: 0 auto;
 `
 
 export const Emoji = styled.p`

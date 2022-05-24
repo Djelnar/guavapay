@@ -1,7 +1,8 @@
-import { getCards, serializeCard } from 'api'
+import { getCards } from 'api'
 import cards from 'api/cards'
-import { Currencies } from 'api/currencies'
 import { LoadMore } from 'components/ui'
+import { formatCardNumber } from 'lib/format-card-number'
+import { formatExpireDate } from 'lib/format-expire-date'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
@@ -20,19 +21,6 @@ const List = styled.div`
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
 `
-
-export const formatCurrency = (value: number, currency: string) =>
-  new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'narrowSymbol',
-  }).format(value / 100)
-
-export const CurrencyEmoji: Record<Currencies, string> = {
-  AZN: '🇦🇿',
-  EUR: '🇪🇺',
-  USD: '🇺🇸',
-}
 
 const Cards = () => {
   const [loading, setLoading] = useState(false)
@@ -53,7 +41,7 @@ const Cards = () => {
     })
       .then((res) => {
         if (res.page === 0 && res.items.length === 1) {
-          navigate(serializeCard(res.items[0].maskedCardNumber))
+          navigate(res.items[0].maskedCardNumber)
         }
         setItems((s) => s.concat(res.items))
         if (res.items.length < 10) {
@@ -77,11 +65,9 @@ const Cards = () => {
     <Root>
       <List>
         {items.map((item) => (
-          <Card cardColor={item.color} to={`${pathname}/${serializeCard(item.maskedCardNumber)}`} key={item.cardID}>
-            <MaskedCardNumber>{item.maskedCardNumber}</MaskedCardNumber>
-            <ExpireDate>
-              {new Date(item.expireDate).getMonth()}/{new Date(item.expireDate).getFullYear()}
-            </ExpireDate>
+          <Card cardColor={item.color} to={`${pathname}/${item.maskedCardNumber}`} key={item.cardID}>
+            <MaskedCardNumber>{formatCardNumber(item.maskedCardNumber)}</MaskedCardNumber>
+            <ExpireDate>{formatExpireDate(item.expireDate)}</ExpireDate>
           </Card>
         ))}
       </List>

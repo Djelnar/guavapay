@@ -1,7 +1,8 @@
-import { getAccounts, serializeIban } from 'api'
+import { getAccounts } from 'api'
 import accounts from 'api/accounts'
-import { Currencies } from 'api/currencies'
 import { LoadMore, Paper } from 'components/ui'
+import { CurrencyEmoji, formatCurrency } from 'lib/format-currency'
+import { formatIban } from 'lib/format-iban'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
@@ -19,19 +20,6 @@ const List = styled.div`
   gap: 16px;
   grid-template-columns: repeat(2, 1fr);
 `
-
-export const formatCurrency = (value: number, currency: string) =>
-  new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'narrowSymbol',
-  }).format(value / 100)
-
-export const CurrencyEmoji: Record<Currencies, string> = {
-  AZN: '🇦🇿',
-  EUR: '🇪🇺',
-  USD: '🇺🇸',
-}
 
 const Accounts = () => {
   const [loading, setLoading] = useState(false)
@@ -52,7 +40,7 @@ const Accounts = () => {
     })
       .then((res) => {
         if (res.page === 0 && res.items.length === 1) {
-          navigate(serializeIban(res.items[0].iban))
+          navigate(res.items[0].iban)
         }
         setItems((s) => s.concat(res.items))
         if (res.items.length < 10) {
@@ -76,9 +64,9 @@ const Accounts = () => {
     <Root>
       <List>
         {items.map((item) => (
-          <Paper to={`${pathname}/${serializeIban(item.iban)}`} key={item.id}>
+          <Paper to={`${pathname}/${item.iban}`} key={item.id}>
             <Emoji>{CurrencyEmoji[item.currency]}</Emoji>
-            <Iban>{item.iban}</Iban>
+            <Iban>{formatIban(item.iban)}</Iban>
             <Balance>{formatCurrency(item.balance, item.currency)}</Balance>
           </Paper>
         ))}

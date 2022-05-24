@@ -7,6 +7,7 @@ import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
 import { get } from 'mcc'
 import { TransactionData, TransactionDescription } from './style'
+import { formatCurrency } from 'lib/format-currency'
 
 const Root = styled.div`
   display: flex;
@@ -27,13 +28,6 @@ const ItemLayout = styled.div`
   justify-content: space-between;
   width: 100%;
 `
-
-export const formatCurrency = (value: number, currency: string) =>
-  new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'narrowSymbol',
-  }).format(value / 100)
 
 const Transactions = () => {
   const [loading, setLoading] = useState(false)

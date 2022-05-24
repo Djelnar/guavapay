@@ -1,24 +1,14 @@
 import { getTransaction } from 'api'
 import transactions from 'api/transactions'
 import { Paper } from 'components/ui'
+import { formatCurrency } from 'lib/format-currency'
+import { formatDate } from 'lib/format-date'
 import { last } from 'lodash/fp'
 import { get } from 'mcc'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import { TransactionData } from './style'
-
-const { format: formatDate } = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'full',
-  timeStyle: 'short',
-})
-
-export const formatCurrency = (value: number, currency: string) =>
-  new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'narrowSymbol',
-  }).format(value / 100)
 
 const TransactionView = () => {
   const { transactionNumber } = useParams() as RouteParams

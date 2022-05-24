@@ -2,7 +2,7 @@ const cards = [
   {
     cardID: 0,
     account: '0',
-    maskedCardNumber: '5653 78** **** 4819',
+    maskedCardNumber: '565378******4819',
     expireDate: '2029-08-29T21:39:15.331Z',
     currency: 'USD',
     status: false,
@@ -11,7 +11,7 @@ const cards = [
   {
     cardID: 1,
     account: '0',
-    maskedCardNumber: '2415 20** **** 0062',
+    maskedCardNumber: '241520******0062',
     expireDate: '2026-04-12T17:14:23.738Z',
     currency: 'AZN',
     status: true,
@@ -20,7 +20,7 @@ const cards = [
   {
     cardID: 2,
     account: '1',
-    maskedCardNumber: '5565 78** **** 9545',
+    maskedCardNumber: '556578******9545',
     expireDate: '2027-12-08T02:26:14.229Z',
     currency: 'USD',
     status: false,
@@ -29,7 +29,7 @@ const cards = [
   {
     cardID: 3,
     account: '2',
-    maskedCardNumber: '5480 51** **** 8477',
+    maskedCardNumber: '548051******8477',
     expireDate: '2026-09-19T02:40:16.906Z',
     currency: 'EUR',
     status: false,
@@ -38,7 +38,7 @@ const cards = [
   {
     cardID: 4,
     account: '1',
-    maskedCardNumber: '3619 19** **** 0721',
+    maskedCardNumber: '361919******0721',
     expireDate: '2024-10-12T13:32:32.893Z',
     currency: 'USD',
     status: true,
@@ -47,7 +47,7 @@ const cards = [
   {
     cardID: 5,
     account: '2',
-    maskedCardNumber: '1150 98** **** 3972',
+    maskedCardNumber: '115098******3972',
     expireDate: '2029-03-04T06:48:37.232Z',
     currency: 'EUR',
     status: true,
@@ -56,7 +56,7 @@ const cards = [
   {
     cardID: 6,
     account: '0',
-    maskedCardNumber: '5924 36** **** 9237',
+    maskedCardNumber: '592436******9237',
     expireDate: '2026-08-19T11:51:58.467Z',
     currency: 'AZN',
     status: true,
@@ -65,7 +65,7 @@ const cards = [
   {
     cardID: 7,
     account: '1',
-    maskedCardNumber: '1611 48** **** 6179',
+    maskedCardNumber: '161148******6179',
     expireDate: '2026-03-21T04:24:41.074Z',
     currency: 'AZN',
     status: true,
@@ -74,7 +74,7 @@ const cards = [
   {
     cardID: 8,
     account: '0',
-    maskedCardNumber: '6819 03** **** 2749',
+    maskedCardNumber: '681903******2749',
     expireDate: '2029-09-15T22:09:02.251Z',
     currency: 'AZN',
     status: false,
@@ -83,7 +83,7 @@ const cards = [
   {
     cardID: 9,
     account: '0',
-    maskedCardNumber: '9235 80** **** 5831',
+    maskedCardNumber: '923580******5831',
     expireDate: '2024-04-24T19:35:00.417Z',
     currency: 'AZN',
     status: false,
@@ -92,7 +92,7 @@ const cards = [
   {
     cardID: 10,
     account: '0',
-    maskedCardNumber: '8972 32** **** 2179',
+    maskedCardNumber: '897232******2179',
     expireDate: '2027-10-11T16:39:59.886Z',
     currency: 'AZN',
     status: false,
@@ -101,7 +101,7 @@ const cards = [
   {
     cardID: 11,
     account: '2',
-    maskedCardNumber: '6619 03** **** 1194',
+    maskedCardNumber: '661903******1194',
     expireDate: '2025-07-28T14:25:10.646Z',
     currency: 'USD',
     status: false,
@@ -110,7 +110,7 @@ const cards = [
   {
     cardID: 12,
     account: '1',
-    maskedCardNumber: '4405 28** **** 0502',
+    maskedCardNumber: '440528******0502',
     expireDate: '2026-02-03T00:27:27.966Z',
     currency: 'EUR',
     status: false,
@@ -119,7 +119,7 @@ const cards = [
   {
     cardID: 13,
     account: '2',
-    maskedCardNumber: '8271 30** **** 4790',
+    maskedCardNumber: '827130******4790',
     expireDate: '2026-01-17T13:47:09.274Z',
     currency: 'AZN',
     status: false,
@@ -128,7 +128,7 @@ const cards = [
   {
     cardID: 14,
     account: '1',
-    maskedCardNumber: '3565 39** **** 3590',
+    maskedCardNumber: '356539******3590',
     expireDate: '2027-03-20T12:52:46.195Z',
     currency: 'USD',
     status: true,
@@ -137,7 +137,7 @@ const cards = [
   {
     cardID: 15,
     account: '2',
-    maskedCardNumber: '6481 48** **** 6697',
+    maskedCardNumber: '648148******6697',
     expireDate: '2029-01-04T12:14:22.593Z',
     currency: 'AZN',
     status: true,
@@ -146,7 +146,7 @@ const cards = [
   {
     cardID: 16,
     account: '1',
-    maskedCardNumber: '5145 83** **** 4018',
+    maskedCardNumber: '514583******4018',
     expireDate: '2026-06-10T02:52:11.207Z',
     currency: 'AZN',
     status: false,
@@ -155,7 +155,7 @@ const cards = [
   {
     cardID: 17,
     account: '2',
-    maskedCardNumber: '0573 65** **** 0869',
+    maskedCardNumber: '057365******0869',
     expireDate: '2024-06-15T14:01:07.017Z',
     currency: 'USD',
     status: true,
@@ -164,7 +164,7 @@ const cards = [
   {
     cardID: 18,
     account: '2',
-    maskedCardNumber: '3842 55** **** 2015',
+    maskedCardNumber: '384255******2015',
     expireDate: '2026-02-05T22:47:53.964Z',
     currency: 'EUR',
     status: true,
@@ -173,7 +173,7 @@ const cards = [
   {
     cardID: 19,
     account: '0',
-    maskedCardNumber: '4517 03** **** 9342',
+    maskedCardNumber: '451703******9342',
     expireDate: '2029-01-23T18:31:36.032Z',
     currency: 'EUR',
     status: true,

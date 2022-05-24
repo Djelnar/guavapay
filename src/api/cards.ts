@@ -1,4 +1,14 @@
-const cards = [
+export type Card = {
+  cardID: number
+  account: string
+  maskedCardNumber: string
+  expireDate: string
+  currency: string
+  status: boolean
+  color: string
+}
+
+const cards: Card[] = [
   {
     cardID: 0,
     account: '0',

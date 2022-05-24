@@ -1,6 +1,13 @@
 import { Currencies } from './currencies'
 
-const accounts = {
+export type Account = {
+  id: number
+  iban: string
+  currency: Currencies
+  balance: number
+}
+
+const accounts: Record<number, Account> = {
   0: {
     id: 0,
     iban: 'GB31ZTIC17827303240036',

@@ -1,17 +1,17 @@
 import { getAccount } from 'api'
-import accounts from 'api/accounts'
+import { Account } from 'api/accounts'
 import { Paper } from 'components/ui'
+import { CurrencyEmoji, formatCurrency } from 'lib/format-currency'
 import { formatIban } from 'lib/format-iban'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
-import { CurrencyEmoji, formatCurrency } from '.'
 import { Balance, Emoji, Iban } from './style'
 
 const AccountView = () => {
   const { accountIban } = useParams() as RouteParams
 
-  const [account, setAccount] = useState<typeof accounts[0] | null>(null)
+  const [account, setAccount] = useState<Account | null>(null)
 
   useEffect(() => {
     getAccount({ iban: accountIban! }).then((acc) => {

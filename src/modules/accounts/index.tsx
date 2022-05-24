@@ -1,5 +1,5 @@
 import { getAccounts } from 'api'
-import accounts from 'api/accounts'
+import { Account } from 'api/accounts'
 import { LoadMore, Paper } from 'components/ui'
 import { CurrencyEmoji, formatCurrency } from 'lib/format-currency'
 import { formatIban } from 'lib/format-iban'
@@ -26,7 +26,7 @@ const Accounts = () => {
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(false)
 
-  const [items, setItems] = useState<typeof accounts[0][]>([])
+  const [items, setItems] = useState<Account[]>([])
   const { transactionNumber, maskedCardNumber } = useParams() as RouteParams
   const { pathname } = useLocation()
   const navigate = useNavigate()

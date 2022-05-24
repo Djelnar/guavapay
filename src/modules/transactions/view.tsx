@@ -1,5 +1,5 @@
 import { getTransaction } from 'api'
-import transactions from 'api/transactions'
+import { Transaction } from 'api/transactions'
 import { Paper } from 'components/ui'
 import { formatCurrency } from 'lib/format-currency'
 import { formatDate } from 'lib/format-date'
@@ -13,7 +13,7 @@ import { TransactionData } from './style'
 const TransactionView = () => {
   const { transactionNumber } = useParams() as RouteParams
 
-  const [transaction, setTransaction] = useState<typeof transactions[0] | null>(null)
+  const [transaction, setTransaction] = useState<Transaction | null>(null)
 
   useEffect(() => {
     getTransaction({ id: last(transactionNumber!.split('-'))! }).then((tr) => {
@@ -24,18 +24,16 @@ const TransactionView = () => {
   }, [transactionNumber])
 
   return (
-    <div>
-      {transaction && (
-        <Paper as="div">
-          <TransactionData>{formatDate(new Date(transaction.transactionDate))}</TransactionData>
-          <p>{transaction.merchantInfo}</p>
-          <p>
-            {get(transaction.mcc).edited_description} (MCC {get(transaction.mcc).mcc})
-          </p>
-          <TransactionData>{formatCurrency(transaction.amount, transaction.currency)}</TransactionData>
-        </Paper>
-      )}
-    </div>
+    transaction && (
+      <Paper as="div">
+        <TransactionData>{formatDate(new Date(transaction.transactionDate))}</TransactionData>
+        <p>{transaction.merchantInfo}</p>
+        <p>
+          {get(transaction.mcc).edited_description} (MCC {get(transaction.mcc).mcc})
+        </p>
+        <TransactionData>{formatCurrency(transaction.amount, transaction.currency)}</TransactionData>
+      </Paper>
+    )
   )
 }
 

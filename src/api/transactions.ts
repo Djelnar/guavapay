@@ -1,4 +1,15 @@
-const transactions = [
+export type Transaction = {
+  transactionID: string
+  cardAccount: string
+  cardID: string
+  amount: number
+  currency: string
+  transactionDate: string
+  merchantInfo: string
+  mcc: string
+}
+
+const transactions: Transaction[] = [
   {
     transactionID: '0',
     cardAccount: '0',

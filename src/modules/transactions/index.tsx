@@ -1,13 +1,13 @@
 import { getTransactions, serializeDate } from 'api'
-import transactions from 'api/transactions'
+import { Transaction } from 'api/transactions'
 import { LoadMore, Paper } from 'components/ui'
+import { formatCurrency } from 'lib/format-currency'
+import { get } from 'mcc'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
-import { get } from 'mcc'
 import { TransactionData, TransactionDescription } from './style'
-import { formatCurrency } from 'lib/format-currency'
 
 const Root = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const Transactions = () => {
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(false)
 
-  const [items, setItems] = useState<typeof transactions>([])
+  const [items, setItems] = useState<Transaction[]>([])
   const { accountIban, maskedCardNumber } = useParams() as RouteParams
   const { pathname } = useLocation()
 

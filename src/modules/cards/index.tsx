@@ -1,13 +1,11 @@
 import { getCards } from 'api'
-import cards from 'api/cards'
+import { Card } from 'api/cards'
+import CardComponent from 'components/card'
 import { LoadMore } from 'components/ui'
-import { formatCardNumber } from 'lib/format-card-number'
-import { formatExpireDate } from 'lib/format-expire-date'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
-import { Card, ExpireDate, MaskedCardNumber } from './style'
 
 const Root = styled.div`
   display: flex;
@@ -27,7 +25,7 @@ const Cards = () => {
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(false)
 
-  const [items, setItems] = useState<typeof cards>([])
+  const [items, setItems] = useState<Card[]>([])
   const { transactionNumber, accountIban } = useParams() as RouteParams
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -65,10 +63,7 @@ const Cards = () => {
     <Root>
       <List>
         {items.map((item) => (
-          <Card cardColor={item.color} to={`${pathname}/${item.maskedCardNumber}`} key={item.cardID}>
-            <MaskedCardNumber>{formatCardNumber(item.maskedCardNumber)}</MaskedCardNumber>
-            <ExpireDate>{formatExpireDate(item.expireDate)}</ExpireDate>
-          </Card>
+          <CardComponent card={item} key={item.cardID} to={`${pathname}/${item.maskedCardNumber}`} />
         ))}
       </List>
       {hasMore && (

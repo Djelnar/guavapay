@@ -34,3 +34,11 @@ export const LoadMore = styled.button`
 
   cursor: pointer;
 `
+
+export const Heading = styled.h1`
+  font-size: 32px;
+  color: #111111;
+  font-style: italic;
+
+  align-self: flex-start;
+`

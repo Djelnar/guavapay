@@ -3,6 +3,7 @@ import { reject } from 'lodash/fp'
 import React, { Fragment } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ROUTE_CONSTANTS } from 'route-constants'
+import Home from 'modules/home'
 
 const mapRoutesRec = (routes: typeof ROUTE_CONSTANTS, base = '') => {
   if (routes.length === 0) return null
@@ -35,7 +36,8 @@ function App() {
       <Wrapper>
         <Routes>
           {mapRoutesRec(ROUTE_CONSTANTS)}
-          <Route path="*" element={<Navigate to={ROUTE_CONSTANTS[0].listKey} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to={'/'} />} />
         </Routes>
       </Wrapper>
     </Root>

@@ -1,9 +1,10 @@
 import { getCards } from 'api'
 import { Card } from 'api/cards'
+import Breadcrumbs from 'components/breadcrumbs'
 import CardComponent from 'components/card'
-import { LoadMore } from 'components/ui'
+import { Heading, LoadMore } from 'components/ui'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
 
@@ -17,7 +18,7 @@ const List = styled.div`
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, 1fr);
-  width: 100%;
+  align-self: stretch;
 `
 
 const Cards = () => {
@@ -27,7 +28,6 @@ const Cards = () => {
 
   const [items, setItems] = useState<Card[]>([])
   const { transactionNumber, accountIban } = useParams() as RouteParams
-  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Cards = () => {
     })
       .then((res) => {
         if (res.page === 0 && res.items.length === 1) {
-          navigate(res.items[0].maskedCardNumber)
+          navigate(res.items[0].maskedCardNumber, { replace: true })
         }
         setItems((s) => s.concat(res.items))
         if (res.items.length < 10) {
@@ -61,9 +61,19 @@ const Cards = () => {
 
   return (
     <Root>
+      <Breadcrumbs />
+      <Heading>
+        Cards{' '}
+        {accountIban && (
+          <>
+            <br />
+            Account: {accountIban}
+          </>
+        )}
+      </Heading>
       <List>
         {items.map((item) => (
-          <CardComponent card={item} key={item.cardID} to={`${pathname}/${item.maskedCardNumber}`} />
+          <CardComponent card={item} key={item.cardID} to={item.maskedCardNumber} />
         ))}
       </List>
       {hasMore && (

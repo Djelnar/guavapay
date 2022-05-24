@@ -6,14 +6,13 @@ import styled from 'styled-components'
 import { Paper } from './ui'
 
 type TProps = {
-  small?: boolean
   card: TCard
   to?: string
 }
 
-const Root = styled(Paper)<{ cardColor: string; small?: boolean; disabled?: boolean }>`
+const Root = styled(Paper)<{ cardColor: string; disabled?: boolean }>`
   border-radius: 14px;
-  width: ${(p) => (p.small ? '50%' : '100%')};
+  width: 100%;
   aspect-ratio: 1.586;
   background-color: ${(p) => (p.disabled ? 'grey' : p.cardColor)};
   opacity: ${(p) => (p.disabled ? 0.3 : 1)};
@@ -31,9 +30,9 @@ export const ExpireDate = styled.p`
   color: white;
 `
 
-const Card = ({ card, small, to = '' }: TProps) => {
+const Card = ({ card, to = '' }: TProps) => {
   return (
-    <Root to={to} small={small} cardColor={card.color} disabled={!card.status} key={card.cardID}>
+    <Root to={to} cardColor={card.color} disabled={!card.status} key={card.cardID}>
       <MaskedCardNumber>{formatCardNumber(card.maskedCardNumber)}</MaskedCardNumber>
       <ExpireDate>{formatExpireDate(card.expireDate)}</ExpireDate>
     </Root>

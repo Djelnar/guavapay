@@ -1,10 +1,13 @@
 import { getTransactions, serializeDate } from 'api'
 import { Transaction } from 'api/transactions'
-import { LoadMore, Paper } from 'components/ui'
+import Breadcrumbs from 'components/breadcrumbs'
+import { Heading, LoadMore, Paper } from 'components/ui'
+import { formatCardNumber } from 'lib/format-card-number'
 import { formatCurrency } from 'lib/format-currency'
+import { formatIban } from 'lib/format-iban'
 import { get } from 'mcc'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
 import { TransactionData, TransactionDescription } from './style'
@@ -22,6 +25,8 @@ const List = styled.div`
   align-items: stretch;
 
   gap: 16px;
+
+  align-self: stretch;
 `
 const ItemLayout = styled.div`
   display: flex;
@@ -36,7 +41,6 @@ const Transactions = () => {
 
   const [items, setItems] = useState<Transaction[]>([])
   const { accountIban, maskedCardNumber } = useParams() as RouteParams
-  const { pathname } = useLocation()
 
   useEffect(() => {
     setLoading(true)
@@ -66,9 +70,25 @@ const Transactions = () => {
 
   return (
     <Root>
+      <Breadcrumbs />
+      <Heading>
+        Transactions{' '}
+        {accountIban && (
+          <>
+            <br />
+            Account: {formatIban(accountIban)}
+          </>
+        )}
+        {maskedCardNumber && (
+          <>
+            <br />
+            Card: {formatCardNumber(maskedCardNumber)}
+          </>
+        )}
+      </Heading>
       <List>
         {items.map((item) => (
-          <Paper to={`${pathname}/${serializeDate(item.transactionDate, item.transactionID)}`} key={item.transactionID}>
+          <Paper to={serializeDate(item.transactionDate, item.transactionID)} key={item.transactionID}>
             <ItemLayout>
               <div>
                 <TransactionData>{item.merchantInfo}</TransactionData>

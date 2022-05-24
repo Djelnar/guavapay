@@ -41,7 +41,7 @@ const Transactions = () => {
   const [hasMore, setHasMore] = useState(false)
 
   const [items, setItems] = useState<typeof transactions>([])
-  const { accountIban, cardMaskedNumber } = useParams() as RouteParams
+  const { accountIban, maskedCardNumber } = useParams() as RouteParams
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const Transactions = () => {
     getTransactions({
       page,
       accountIban,
-      cardMaskedNumber,
+      maskedCardNumber,
     })
       .then((res) => {
         setItems((s) => s.concat(res.items))
@@ -62,7 +62,7 @@ const Transactions = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [page])
+  }, [page, accountIban, maskedCardNumber])
 
   const handleLoadMore = useCallback(() => {
     if (hasMore && !loading) {

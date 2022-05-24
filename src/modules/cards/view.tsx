@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 
 const CardView = () => {
-  const { cardMaskedNumber } = useParams() as RouteParams
+  const { maskedCardNumber } = useParams() as RouteParams
 
-  return <div>{cardMaskedNumber}</div>
+  return <div>{maskedCardNumber}</div>
 }
 
 export default CardView

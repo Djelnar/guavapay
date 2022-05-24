@@ -1,7 +1,7 @@
 import { getCards, serializeCard } from 'api'
 import cards from 'api/cards'
 import { Currencies } from 'api/currencies'
-import { LoadMore, Paper } from 'components/ui'
+import { LoadMore } from 'components/ui'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
@@ -65,7 +65,7 @@ const Cards = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [page])
+  }, [page, accountIban, transactionNumber, navigate])
 
   const handleLoadMore = useCallback(() => {
     if (hasMore && !loading) {

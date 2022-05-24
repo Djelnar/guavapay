@@ -20,10 +20,10 @@ export const ROUTE_CONSTANTS = [
   },
   {
     listKey: 'cards',
-    pathParam: 'cardMaskedNumber',
+    pathParam: 'maskedCardNumber',
     ListComponent: Cards,
     ViewComponent: CardView,
   },
 ]
 
-export type RouteParams = Partial<Record<'transactionNumber' | 'accountIban' | 'cardMaskedNumber', string>>
+export type RouteParams = Partial<Record<'transactionNumber' | 'accountIban' | 'maskedCardNumber', string>>

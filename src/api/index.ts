@@ -19,23 +19,41 @@ export type WithPageResponse<T = {}> = {
   items: T[]
 }
 
-export const serializeIban = (iban: string) => iban.replace(/\s+/g, '')
-export const serializeCard = (maskedCardNumber: string) => maskedCardNumber.replace(/\s+/g, '')
+export const serializeIban = (iban: string) => decodeURIComponent(iban.replace(/\s+/g, ''))
+export const serializeCard = (maskedCardNumber: string) => decodeURIComponent(maskedCardNumber.replace(/\s+/g, ''))
 
 export const getAccounts = async ({
   page,
+  maskedCardNumber,
+  transactionNumber,
 }: WithPageRequest<{
-  cardMaskedNumber?: string
+  maskedCardNumber?: string
   transactionNumber?: string
-  accountIban?: string
 }>): Promise<WithPageResponse<typeof accounts[0]>> => {
   const first = page * 10
   const last = first + 10
 
+  let items = Object.values(accounts)
+
+  if (maskedCardNumber) {
+    const cardAccount = cards.find(
+      (card) => serializeCard(card.maskedCardNumber) === serializeCard(maskedCardNumber),
+    )?.account
+    items = items.filter((item) => String(item.id) === String(cardAccount))
+  }
+  if (transactionNumber) {
+    const cardAccount = transactions.find(
+      (tr) => serializeDate(tr.transactionDate, tr.transactionID) === transactionNumber,
+    )!.cardAccount
+    items = items.filter((item) => String(item.id) === cardAccount)
+  }
+
+  items = items.slice(first, last)
+
   await sleep()
   return {
     page,
-    items: Object.values(accounts).slice(first, last),
+    items,
   }
 }
 
@@ -54,17 +72,34 @@ export const serializeDate = (date: string, transactionId: string) => {
 
 export const getTransactions = async ({
   page,
+  accountIban,
+  maskedCardNumber,
 }: WithPageRequest<{
-  cardMaskedNumber?: string
+  maskedCardNumber?: string
   accountIban?: string
 }>): Promise<WithPageResponse<typeof transactions[number]>> => {
   const first = page * 10
   const last = first + 10
 
+  let items = Object.values(transactions)
+
+  if (maskedCardNumber) {
+    const cardId = cards.find(
+      (card) => serializeCard(card.maskedCardNumber) === serializeCard(maskedCardNumber),
+    )?.cardID
+    items = items.filter((item) => item.cardID === String(cardId))
+  }
+  if (accountIban) {
+    const accountId = Object.values(accounts).find((acc) => serializeIban(acc.iban) === serializeIban(accountIban))!.id
+    items = items.filter((item) => item.cardAccount === String(accountId))
+  }
+
+  items = items.slice(first, last)
+
   await sleep()
   return {
     page,
-    items: Object.values(transactions).slice(first, last),
+    items,
   }
 }
 
@@ -78,21 +113,29 @@ export const getTransaction = async ({ id }: { id: string }) => {
 export const getCards = async ({
   page,
   accountIban,
-  cardMaskedNumber,
   transactionNumber,
 }: WithPageRequest<{
   transactionNumber?: string
   accountIban?: string
-  cardMaskedNumber?: string
 }>): Promise<WithPageResponse<typeof cards[number]>> => {
   const first = page * 10
   const last = first + 10
 
-  let items = cards.slice(first, last)
+  let items = cards
 
   if (accountIban) {
-    items = items.filter((item) => item.account === accountIban)
+    const accountId = Object.values(accounts).find((acc) => serializeIban(acc.iban) === serializeIban(accountIban))!.id
+    items = items.filter((item) => item.account === String(accountId))
   }
+  if (transactionNumber) {
+    const transactionCardId = transactions.find(
+      (tr) => serializeDate(tr.transactionDate, tr.transactionID) === transactionNumber,
+    )!.cardID
+
+    items = items.filter((item) => String(item.cardID) === transactionCardId)
+  }
+
+  items = items.slice(first, last)
 
   await sleep()
   return {

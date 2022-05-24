@@ -1,12 +1,13 @@
 import { getTransactions, serializeDate } from 'api'
 import { Transaction } from 'api/transactions'
 import Breadcrumbs from 'components/breadcrumbs'
-import { Heading, LoadMore, Paper } from 'components/ui'
+import { Heading, LoadMore, Paper, SubHeading } from 'components/ui'
 import { formatCardNumber } from 'lib/format-card-number'
 import { formatCurrency } from 'lib/format-currency'
 import { formatIban } from 'lib/format-iban'
+import { groupBy } from 'lodash/fp'
 import { get } from 'mcc'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { RouteParams } from 'route-constants'
 import styled from 'styled-components'
@@ -17,7 +18,7 @@ const Root = styled.div`
   flex-direction: column;
   align-items: stretch;
 
-  gap: 40px;
+  gap: 16px;
 `
 const List = styled.div`
   display: flex;
@@ -32,6 +33,13 @@ const ItemLayout = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+`
+const Group = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  gap: 16px;
 `
 
 const Transactions = () => {
@@ -62,6 +70,10 @@ const Transactions = () => {
       })
   }, [page, accountIban, maskedCardNumber])
 
+  const transactionsGrouped = useMemo(() => {
+    return groupBy((item) => new Date(item.transactionDate).toDateString(), items)
+  }, [items])
+
   const handleLoadMore = useCallback(() => {
     if (hasMore && !loading) {
       setPage(page + 1)
@@ -87,17 +99,24 @@ const Transactions = () => {
         )}
       </Heading>
       <List>
-        {items.map((item) => (
-          <Paper to={serializeDate(item.transactionDate, item.transactionID)} key={item.transactionID}>
-            <ItemLayout>
-              <div>
-                <TransactionData>{item.merchantInfo}</TransactionData>
-                <TransactionDescription>{get(item.mcc)?.edited_description}</TransactionDescription>
-              </div>
-              <TransactionData>{formatCurrency(item.amount, item.currency)}</TransactionData>
-            </ItemLayout>
-          </Paper>
-        ))}
+        {Object.entries(transactionsGrouped).map(([dateKey, trs]) => {
+          return (
+            <Group key={dateKey}>
+              <SubHeading>{dateKey}</SubHeading>
+              {trs.map((item) => (
+                <Paper to={serializeDate(item.transactionDate, item.transactionID)} key={item.transactionID}>
+                  <ItemLayout>
+                    <div>
+                      <TransactionData>{item.merchantInfo}</TransactionData>
+                      <TransactionDescription>{get(item.mcc)?.edited_description}</TransactionDescription>
+                    </div>
+                    <TransactionData>{formatCurrency(item.amount, item.currency)}</TransactionData>
+                  </ItemLayout>
+                </Paper>
+              ))}
+            </Group>
+          )
+        })}
       </List>
       {hasMore && (
         <LoadMore disabled={loading} onClick={handleLoadMore}>

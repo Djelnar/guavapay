@@ -5,7 +5,7 @@ export const Paper = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 16px;
   padding: 16px;
   border-radius: 12px;
   background-color: aliceblue;
@@ -37,6 +37,13 @@ export const LoadMore = styled.button`
 
 export const Heading = styled.h1`
   font-size: 32px;
+  color: #111111;
+  font-style: italic;
+
+  align-self: flex-start;
+`
+export const SubHeading = styled.h2`
+  font-size: 22px;
   color: #111111;
   font-style: italic;
 

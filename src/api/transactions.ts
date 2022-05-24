@@ -1,3 +1,5 @@
+import { orderBy } from 'lodash/fp'
+
 export type Transaction = {
   transactionID: string
   cardAccount: string
@@ -3012,4 +3014,4 @@ const transactions: Transaction[] = [
   },
 ]
 
-export default transactions
+export default orderBy('transactionDate', 'desc', transactions)

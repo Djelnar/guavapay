@@ -1,12 +1,12 @@
 import { upperFirst } from 'lodash/fp'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import styled from 'styled-components'
 
 const Root = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 4px;
   align-self: flex-start;
 `
 const Item = styled.span`
@@ -26,15 +26,18 @@ const Breadcrumbs = () => {
 
   return (
     <Root>
+      <Item to={'/'} as={Link}>
+        Home
+      </Item>
       {segments.map((seg, idx) => {
         const last = idx === segments.length - 1
         return (
-          <>
+          <Fragment key={seg}>
+            <Item>{'>'}</Item>
             <Item to={`/${segments.slice(0, idx + 1).join('/')}`} as={last ? 'span' : Link}>
               {upperFirst(seg)}
             </Item>
-            {!last && <Item>/</Item>}
-          </>
+          </Fragment>
         )
       })}
     </Root>

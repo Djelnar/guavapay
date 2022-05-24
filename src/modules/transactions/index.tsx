@@ -72,15 +72,23 @@ const Transactions = () => {
       })
   }, [page, accountIban, maskedCardNumber])
 
+  const filtered = useMemo(() => items.filter((item) => !currency || item.currency === currency), [items, currency])
+
   const transactionsGrouped = useMemo(() => {
-    return groupBy((item) => new Date(item.transactionDate).toDateString(), items)
-  }, [items])
+    return groupBy((item) => new Date(item.transactionDate).toDateString(), filtered)
+  }, [filtered])
 
   const handleLoadMore = useCallback(() => {
     if (hasMore && !loading) {
       setPage(page + 1)
     }
   }, [hasMore, page, loading])
+
+  useEffect(() => {
+    if (filtered.length === 0) {
+      handleLoadMore()
+    }
+  }, [filtered, handleLoadMore])
 
   return (
     <Root>

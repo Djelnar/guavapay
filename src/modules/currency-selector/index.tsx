@@ -1,4 +1,5 @@
 import { CurrencyEmoji } from 'lib/format-currency'
+import { useCurrency } from 'lib/use-currency'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -16,18 +17,24 @@ const Root = styled.div`
 `
 const Inner = styled.div`
   height: 40px;
-  padding: 8px;
+  padding: 0 8px;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   place-items: center;
 `
-const Button = styled.button`
+const Button = styled.button<{ active?: boolean }>`
   border: none;
   padding: 0;
   background-color: transparent;
   cursor: pointer;
-  font-size: 20px;
+  font-size: ${(p) => (p.active ? '24px' : '16px')};
+
+  transition: font-size 100ms linear;
+
+  &:hover {
+    font-size: 24px;
+  }
 `
 
 const CurrencySelector = () => {
@@ -37,13 +44,16 @@ const CurrencySelector = () => {
   const handleClick = (currency = '') => {
     navigate(pathname + (currency ? `?currency=${currency}` : ''), { replace: true })
   }
+  const currency = useCurrency()
 
   return (
     <Root>
       <Inner>
-        <Button onClick={() => handleClick()}>All</Button>
+        <Button active={!currency} onClick={() => handleClick()}>
+          all
+        </Button>
         {Object.entries(CurrencyEmoji).map(([key, emoji]) => (
-          <Button onClick={() => handleClick(key)} key={key}>
+          <Button active={currency === key} onClick={() => handleClick(key)} key={key}>
             {emoji}
           </Button>
         ))}

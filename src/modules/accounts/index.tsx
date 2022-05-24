@@ -66,6 +66,12 @@ const Accounts = () => {
     [items, currency],
   )
 
+  useEffect(() => {
+    if (itemsPrepared.length === 0) {
+      handleLoadMore()
+    }
+  }, [itemsPrepared, handleLoadMore])
+
   return (
     <Root>
       <Breadcrumbs />
